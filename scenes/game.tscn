@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=4 uid="uid://dtyqmbn7yuxkg"]
+
+[ext_resource type="PackedScene" uid="uid://duxf514wntx3g" path="res://scenes/player.tscn" id="1_kp0qg"]
+[ext_resource type="Texture2D" uid="uid://bblh3naf03xei" path="res://assets/sprites/ground_blocks.png" id="2_i1ihq"]
+[ext_resource type="PackedScene" uid="uid://cgr7a6mw2tb6r" path="res://scenes/skeleton.tscn" id="3_tsfee"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ggxeh"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ohken"]
+texture = ExtResource("2_i1ihq")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_2ytcn"]
+sources/0 = SubResource("TileSetAtlasSource_ohken")
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wg388"]
+a = Vector2(0, -71)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_bcj2v"]
+a = Vector2(0, -71)
+
+[node name="game" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_ggxeh")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="StaticBody2D"]
+tile_map_data = PackedByteArray("AAD3/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAD6/wAAAAAAAAEAAAD7/wAAAAAAAAEAAAD8/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD+/wAAAAAAAAEAAAD//wAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAACAAAAAAAAAAAAAAADAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAD3/wEAAAABAAEAAAD3/wIAAAABAAEAAAD4/wEAAAABAAEAAAD4/wIAAAABAAEAAAD5/wEAAAADAAAAAAD5/wIAAAACAAEAAAD6/wEAAAACAAEAAAD6/wIAAAACAAEAAAD7/wEAAAACAAAAAAD7/wIAAAADAAAAAAD8/wEAAAACAAEAAAD8/wIAAAACAAEAAAD6/wMAAAABAAEAAAD6/wQAAAACAAEAAAD7/wMAAAABAAEAAAD7/wQAAAACAAEAAAD8/wMAAAACAAAAAAD8/wQAAAACAAEAAAD3/wMAAAACAAAAAAD3/wQAAAABAAEAAAD4/wMAAAACAAAAAAD4/wQAAAACAAEAAAD5/wMAAAACAAEAAAD5/wQAAAADAAEAAAD9/wEAAAADAAAAAAD9/wIAAAACAAEAAAD+/wEAAAADAAAAAAD+/wIAAAACAAEAAAD//wEAAAADAAAAAAD//wIAAAACAAAAAAAAAAEAAAADAAEAAAAAAAIAAAACAAAAAAABAAEAAAACAAAAAAABAAIAAAACAAAAAAACAAEAAAADAAAAAAACAAIAAAACAAEAAAAAAAMAAAADAAAAAAAAAAQAAAABAAEAAAABAAMAAAADAAAAAAABAAQAAAACAAAAAAACAAMAAAACAAAAAAACAAQAAAACAAEAAAD9/wMAAAABAAAAAAD9/wQAAAACAAEAAAD+/wMAAAACAAEAAAD+/wQAAAABAAEAAAD//wMAAAADAAAAAAD//wQAAAACAAAAAAADAAMAAAACAAEAAAADAAQAAAACAAEAAAAEAAMAAAACAAEAAAAEAAQAAAACAAEAAAAFAAMAAAACAAEAAAAFAAQAAAADAAEAAAAGAAMAAAABAAAAAAAGAAQAAAABAAEAAAAHAAMAAAACAAAAAAAHAAQAAAACAAEAAAAIAAMAAAADAAAAAAAIAAQAAAADAAEAAAAGAAEAAAABAAEAAAAGAAIAAAACAAEAAAAHAAEAAAACAAAAAAAHAAIAAAACAAAAAAAIAAEAAAADAAAAAAAIAAIAAAADAAEAAAADAAEAAAABAAAAAAADAAIAAAACAAEAAAAEAAEAAAACAAAAAAAEAAIAAAACAAEAAAAFAAEAAAADAAAAAAAFAAIAAAACAAEAAAA=")
+tile_set = SubResource("TileSet_2ytcn")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(143, -10)
+shape = SubResource("SegmentShape2D_wg388")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-143, -10)
+shape = SubResource("SegmentShape2D_bcj2v")
+
+[node name="skeleton" parent="." instance=ExtResource("3_tsfee")]
+position = Vector2(-70, 0)
+
+[node name="player" parent="." instance=ExtResource("1_kp0qg")]
+position = Vector2(0, 1)
