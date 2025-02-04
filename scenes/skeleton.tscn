@@ -1,7 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://cgr7a6mw2tb6r"]
+[gd_scene load_steps=21 format=3 uid="uid://cgr7a6mw2tb6r"]
 
 [ext_resource type="Script" path="res://scripts/skeleton.gd" id="1_brvtn"]
 [ext_resource type="Texture2D" uid="uid://bpc8bdsxgmpjv" path="res://assets/sprites/skeleton.png" id="2_ypgor"]
+[ext_resource type="Script" path="res://scripts/MyHurtBox.gd" id="3_f6yi3"]
+[ext_resource type="Script" path="res://scripts/MyHitBox.gd" id="4_5w5at"]
+[ext_resource type="Texture2D" uid="uid://cqctxele6apc4" path="res://assets/sprites/health_bar_background.png" id="5_telom"]
+[ext_resource type="Texture2D" uid="uid://cfwrfb13aqs1j" path="res://assets/sprites/health_bar_progress.png" id="6_db071"]
+[ext_resource type="Script" path="res://scenes/health_bar.gd" id="7_icekc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xlhvs"]
+radius = 6.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y7vye"]
 atlas = ExtResource("2_ypgor")
@@ -98,19 +106,30 @@ animations = [{
 "speed": 4.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xlhvs"]
-radius = 6.0
-
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_brvtn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_xlhvs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
 sprite_frames = SubResource("SpriteFrames_6vvw1")
 animation = &"moving_right"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
+[node name="MyHurtBox" type="Area2D" parent="AnimatedSprite2D"]
+script = ExtResource("3_f6yi3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/MyHurtBox"]
+position = Vector2(0, 26)
+shape = SubResource("CircleShape2D_xlhvs")
+
+[node name="MyHitBox" type="Area2D" parent="AnimatedSprite2D"]
+script = ExtResource("4_5w5at")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/MyHitBox"]
+position = Vector2(0, 26)
 shape = SubResource("CircleShape2D_xlhvs")
 
 [node name="left" type="RayCast2D" parent="."]
@@ -120,3 +139,15 @@ target_position = Vector2(-10, 0)
 [node name="right" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 target_position = Vector2(10, 0)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("player")]
+offset_left = -13.0
+offset_top = 2.0
+offset_right = 41.0
+offset_bottom = 12.0
+scale = Vector2(0.5, 0.5)
+value = 100.0
+texture_under = ExtResource("5_telom")
+texture_progress = ExtResource("6_db071")
+script = ExtResource("7_icekc")
+player = NodePath("..")

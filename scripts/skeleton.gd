@@ -2,14 +2,17 @@ extends CharacterBody2D
 
 const SPEED = 100
 var direction = 1  # 1 = prawo, -1 = lewo
-
+var health = 100
+signal health_changed
 @onready var sprite = $AnimatedSprite2D  # Pobranie animacji
 @onready var left_ray = $left  # RayCast2D po lewej stronie
 @onready var right_ray = $right  # RayCast2D po prawej stronie
 
 func _ready() -> void:
 	sprite.play("moving_right")  # Startowa animacja
-
+func take_damage(damage: int) -> void:
+	health -= damage
+	health_changed.emit(damage)
 func _physics_process(_delta: float) -> void:
 	# Sprawdzenie kolizji ze ścianą lub krawędzią platformy
 	if left_ray.is_colliding() and right_ray.is_colliding():
