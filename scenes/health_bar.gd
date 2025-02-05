@@ -10,3 +10,5 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func update(delta: float) -> void:
 	value = player.health
+	if value <= 0:
+		visible = false

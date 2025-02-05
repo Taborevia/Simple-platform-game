@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://dtyqmbn7yuxkg"]
+[gd_scene load_steps=13 format=4 uid="uid://dtyqmbn7yuxkg"]
 
 [ext_resource type="PackedScene" uid="uid://duxf514wntx3g" path="res://scenes/player.tscn" id="1_kp0qg"]
 [ext_resource type="Texture2D" uid="uid://bblh3naf03xei" path="res://assets/sprites/ground_blocks.png" id="2_i1ihq"]
 [ext_resource type="PackedScene" uid="uid://cgr7a6mw2tb6r" path="res://scenes/skeleton.tscn" id="3_tsfee"]
+[ext_resource type="Script" path="res://scenes/death_screen.gd" id="4_0im1y"]
+[ext_resource type="Texture2D" uid="uid://c6clih5negpmx" path="res://assets/sprites/button_with_text.png" id="4_peb6m"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ggxeh"]
 
@@ -25,6 +27,27 @@ a = Vector2(0, -71)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_bcj2v"]
 a = Vector2(0, -71)
+
+[sub_resource type="FontFile" id="FontFile_ttkk0"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_yycld"]
+font = SubResource("FontFile_ttkk0")
+font_size = 32
 
 [node name="game" type="Node2D"]
 
@@ -51,5 +74,36 @@ shape = SubResource("SegmentShape2D_bcj2v")
 [node name="skeleton" parent="." instance=ExtResource("3_tsfee")]
 position = Vector2(-70, 0)
 
-[node name="player" parent="." instance=ExtResource("1_kp0qg")]
+[node name="player" parent="." node_paths=PackedStringArray("death_screen") instance=ExtResource("1_kp0qg")]
 position = Vector2(0, 1)
+death_screen = NodePath("../CanvasLayer")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("4_0im1y")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00013689
+scale = Vector2(1.00469, 0.997555)
+color = Color(0, 0, 0, 0.780392)
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 392.0
+offset_top = 135.0
+offset_right = 518.0
+offset_bottom = 179.0
+scale = Vector2(3.25105, 3.25105)
+text = "You Died"
+label_settings = SubResource("LabelSettings_yycld")
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer"]
+offset_left = 363.0
+offset_top = 345.0
+offset_right = 443.0
+offset_bottom = 367.0
+scale = Vector2(5.67527, 5.49787)
+texture_normal = ExtResource("4_peb6m")
