@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdqx4pajuf7ih"]
+
+[ext_resource type="Script" path="res://scenes/death_screen.gd" id="1_ebjjd"]
+[ext_resource type="Texture2D" uid="uid://c6clih5negpmx" path="res://assets/sprites/button_with_text.png" id="2_eojgi"]
+[ext_resource type="Script" path="res://scripts/ScoreCounter.gd" id="3_h8n54"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_usfps"]
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_88je8"]
+font_size = 128
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_ebjjd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -6.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00013689
+scale = Vector2(1.00469, 0.997555)
+color = Color(0, 0, 0, 0.780392)
+
+[node name="TextureButton" type="TextureButton" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -227.0
+offset_top = 75.0
+offset_right = -147.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5.67527, 5.49787)
+texture_normal = ExtResource("2_eojgi")
+
+[node name="Score" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -44.0
+offset_right = 20.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_usfps")
+script = ExtResource("3_h8n54")
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 295.0
+offset_top = 80.0
+offset_right = 847.0
+offset_bottom = 255.0
+text = "You Died"
+label_settings = SubResource("LabelSettings_88je8")

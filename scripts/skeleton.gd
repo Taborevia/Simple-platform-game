@@ -4,7 +4,9 @@ const SPEED = 100
 var direction = 1  # 1 = prawo, -1 = lewo
 var health = 100
 var character_damage = 10
+var points = 1
 signal health_changed
+signal monster_death
 @onready var left_ray = $left  # RayCast2D po lewej stronie
 @onready var right_ray = $right  # RayCast2D po prawej stronie
 @onready var anim = $Sprites/AnimationPlayer
@@ -29,13 +31,17 @@ func take_damage(damage: int) -> void:
 func death() -> void:
 	anim.play("death")
 	modulate = Color(1, 0, 0)  # Ustawia kolor na czerwony
+	GameManager.add_score(points)
+	monster_death.emit()
 	await get_tree().create_timer(0.2).timeout  # Czeka 0.2 sekundy
 	modulate = Color(1, 1, 1)  # Przywraca normalny kolor
 	fade_out()
 	
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	# Sprawdzenie kolizji ze ścianą lub krawędzią platformy
 	if (health>0):
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 		if left_ray.is_colliding() and right_ray.is_colliding():
 			direction = 0
 			anim.play("idle")

@@ -8,7 +8,7 @@ func _init() -> void:
 func _ready() -> void:
 	connect("area_entered", self._on_area_entered)
 
-func _on_area_entered(hitbox: MyHitBox) -> void:
+func _on_area_entered(hitbox: Area2D) -> void:
 	if hitbox == null or hitbox.owner == self.owner:
 		return
 	if owner.has_method("take_damage"):
