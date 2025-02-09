@@ -12,4 +12,4 @@ func _on_area_entered(hitbox: Area2D) -> void:
 	if hitbox == null or hitbox.owner == self.owner:
 		return
 	if owner.has_method("take_damage"):
-		owner.take_damage(hitbox.damage)
+		owner.take_damage(hitbox.damage,hitbox.knockback,hitbox.global_position)

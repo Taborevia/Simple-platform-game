@@ -7,6 +7,7 @@ const JUMP_VELOCITY = -200.0
 var last_direction = 1
 var health = 100
 var character_damage = 50
+var character_knockback = 500
 signal health_changed
 @export var death_screen: CanvasLayer 
 @onready var anim = $Sprites/AnimationPlayer

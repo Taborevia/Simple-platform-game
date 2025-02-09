@@ -22,7 +22,7 @@ offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = -0.00013689
-scale = Vector2(1.00469, 0.997555)
+scale = Vector2(1.00719, 1.00003)
 color = Color(0, 0, 0, 0.780392)
 
 [node name="TextureButton" type="TextureButton" parent="ColorRect"]

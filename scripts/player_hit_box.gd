@@ -2,6 +2,7 @@ class_name MyHitBox
 extends Area2D
 
 var damage := 10
+var knockback := 200
 
 func _init() -> void:
 	collision_layer = 4
@@ -9,4 +10,5 @@ func _init() -> void:
 func _ready() -> void:
 	if owner and owner is CharacterBody2D:  # Sprawdzenie, czy owner istnieje i ma odpowiedni typ
 		damage = owner.character_damage
+		knockback = owner.character_knockback
 	

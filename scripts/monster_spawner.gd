@@ -5,23 +5,26 @@ extends Node2D
 @export var spawn_time: float = 2.0  # Czas między spawnami
 var wave_number: int = 1  # Numer fali
 var enemies_on_map: int = 0  # Liczba potworów aktualnie na mapie
+@export var label: Label
 
 func _ready():
+	while !label:
+		await get_tree().create_timer(0.1).timeout 
 	start_wave()
 	
 func start_wave():
+	print(label)
 	enemies_on_map = 0
 	var required_points = pow(2, wave_number) + 1
-	var max_enemies = pow(2, wave_number)
-
-	print("Rozpoczyna się fala:", wave_number)
-	print("Wymagane punkty do następnej fali:", required_points)
-	print("Limit przeciwników w tej fali:", max_enemies)
+	var max_enemies = pow(wave_number,2)
+	print(wave_number)
+	label.text = "Rozpoczyna się fala: %d\nWymagane punkty do następnej fali: %d\nLimit przeciwników w tej fali: %d" % [wave_number, required_points, max_enemies]
+	await get_tree().create_timer(5).timeout 
+	label.text = ""
 
 
 func _on_timer_timeout():
 	var max_enemies = pow(2, wave_number)
-	print("tutaaaaj")
 	if enemies_on_map < max_enemies:
 		spawn_enemy()
 

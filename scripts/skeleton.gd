@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 100
+const SPEED = 80
 var direction = 1  # 1 = prawo, -1 = lewo
 var health = 100
 var character_damage = 10
@@ -11,6 +11,9 @@ signal monster_death
 @onready var right_ray = $right  # RayCast2D po prawej stronie
 @onready var anim = $Sprites/AnimationPlayer
 @onready var sprite_body = $Sprites/body
+@export var knockback_decay: float = 8.0       # Jak szybko knockback słabnie
+@export var knockback_min: float = 5.0         # Minimalna siła knockbacku (poniżej znika)
+var knockback_velocity: Vector2 = Vector2.ZERO  # Aktualna prędkość knockbacku
 
 func _ready() -> void:
 	anim.play("moving")  # Startowa animacja
@@ -20,9 +23,14 @@ func fade_out():
 		modulate.a = 1.0 - i * 0.01  
 		await get_tree().create_timer(0.03).timeout  
 	queue_free()  
+
+func apply_knockback(knockback_strength: float, source_position: Vector2):
+	print("apply knockback: ", knockback_strength, " ", source_position)
+	# Oblicz kierunek knockbacku i ustaw jego siłę
+	knockback_velocity = (global_position - source_position).normalized() * knockback_strength
 	
-func take_damage(damage: int) -> void:
-	print("ałą za ", damage)
+func take_damage(damage: int, knockback: float, source_position: Vector2) -> void:
+	apply_knockback(knockback, source_position)
 	health -= damage
 	health_changed.emit(damage)
 	if health <= 0:
@@ -40,6 +48,10 @@ func death() -> void:
 func _physics_process(delta: float) -> void:
 	# Sprawdzenie kolizji ze ścianą lub krawędzią platformy
 	if (health>0):
+		if knockback_velocity.length() > knockback_min:
+			knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, knockback_decay * delta)  # Powolne zatrzymanie
+		else:
+			knockback_velocity = Vector2.ZERO
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 		if left_ray.is_colliding() and right_ray.is_colliding():
@@ -55,7 +67,9 @@ func _physics_process(delta: float) -> void:
 			sprite_body.flip_h = true
 
 		# Aktualizacja prędkości ruchu
-		velocity.x = direction * SPEED
+		var move_velocity = direction * SPEED
+		velocity.x = move_velocity + knockback_velocity.x
+		#velocity.y += knockback_velocity.y
 
 		# Przesunięcie potwora
 		move_and_slide()
